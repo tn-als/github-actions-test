@@ -63,6 +63,7 @@ jobs:
         id: check-nodejs
         run: |
           NODE_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@{{ secrets.SERVER_HOST }} 'command -v node >/dev/null && echo "true" || echo "false"')
+          echo "node_exists=$NODE_EXISTS" >> $GITHUB_OUTPUT
 
       - name: Install Docker on EC2
         if: steps.check-docker.outputs.docker_exists == 'false'
