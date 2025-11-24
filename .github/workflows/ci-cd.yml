@@ -52,17 +52,17 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
       - name: Check if Docker is installed
         id: check-docker
         run: |
-          DOCKER_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} 'command -v docker >/dev/null && echo "true" || ceho "false"')
+          DOCKER_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} 'command -v docker >/dev/null && echo "true" || echo "false"')
           echo "docker_exists=$DOCKER_EXISTS" >> $GITHUB_OUTPUT
 
       - name: Check if Node.js is installed
         id: check-nodejs
         run: |
-          NODE_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SEVER_USER }}@{{ secrets.SERVER_HOST }} 'command -v node >/dev/null && echo "true" || echp "false"')
+          NODE_EXISTS=$(ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@{{ secrets.SERVER_HOST }} 'command -v node >/dev/null && echo "true" || echo "false"')
 
       - name: Install Docker on EC2
         if: steps.check-docker.outputs.docker_exists == 'false'
